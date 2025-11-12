@@ -133,13 +133,13 @@
                         <span>Beta Gratuita - Cupos Limitados</span>
                     </div>
 
-                    <!-- Título -->
-                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight">
+                    <!-- Título (Ajuste: removido leading-tight para mejor interlínea en móvil) -->
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-6">
                         No Pierdas el Hilo.<br> Convierte tu Tutoría en <span class="highlight-gradient">Hábito Efectivo</span>
                     </h1>
 
-                    <!-- Descripción -->
-                    <p class="text-lg text-gray-400 mb-10 max-w-xl lg:max-w-none mx-auto lg:mx-0">
+                    <!-- Descripción (Ajuste: añadido leading-relaxed para mejor interlínea) -->
+                    <p class="text-lg text-gray-400 mb-10 max-w-xl lg:max-w-none mx-auto lg:mx-0 leading-relaxed">
                         Te enviamos un <span class="font-bold text-white">micro-desafío diario de 3 minutos</span> por WhatsApp/Telegram basado en tu última sesión. Refuerza, aplica y retén el <span class="font-bold text-white">100% de lo que aprendes</span>. Es el puente entre la teoría y el éxito real.
                     </p>
 
@@ -228,10 +228,11 @@
         <section id="beneficios" class="py-20 lg:py-28 px-6 bg-dark-card/50">
             <div class="container mx-auto max-w-7xl">
                 <div class="text-center mb-16">
+                    <!-- Título de Sección (Ajuste: usando responsive text sizing y removido leading-tight) -->
                     <h2 class="text-3xl sm:text-4xl font-extrabold text-gradient">
                         Cierra la brecha entre Aprender y Dominar
                     </h2>
-                    <p class="text-lg text-gray-400 mt-4 max-w-3xl mx-auto">
+                    <p class="text-lg text-gray-400 mt-4 max-w-3xl mx-auto leading-relaxed">
                         Nuestro método se basa en la repetición espaciada y la aplicación inmediata para un aprendizaje a prueba de olvidos.
                     </p>
                 </div>
@@ -243,7 +244,7 @@
                             <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                         </div>
                         <h3 class="text-xl font-semibold text-white mb-3">Sesiones de 3 Minutos</h3>
-                        <p class="text-gray-400">Diseñado para la vida moderna. Refuerza conceptos clave mientras tomas un café o esperas el bus, sin alterar tu agenda.</p>
+                        <p class="text-gray-400 leading-relaxed">Diseñado para la vida moderna. Refuerza conceptos clave mientras tomas un café o esperas el bus, sin alterar tu agenda.</p>
                     </div>
                     
                     <!-- Tarjeta 2: Genera Confianza -->
@@ -252,7 +253,7 @@
                             <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                         </div>
                         <h3 class="text-xl font-semibold text-white mb-3">Rastrea tu Progreso</h3>
-                        <p class="text-gray-400">Visualiza tu racha y progreso. Cada desafío completado te da una inyección de confianza y prueba tangible de tu constancia.</p>
+                        <p class="text-gray-400 leading-relaxed">Visualiza tu racha y progreso. Cada desafío completado te da una inyección de confianza y prueba tangible de tu constancia.</p>
                     </div>
                     
                     <!-- Tarjeta 3: Siempre Accesible -->
@@ -261,7 +262,7 @@
                             <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" /></svg>
                         </div>
                         <h3 class="text-xl font-semibold text-white mb-3">Integración con Plataformas</h3>
-                        <p class="text-gray-400">Recibe tus desafíos directamente en <strong class="text-green-400">WhatsApp</strong> o <strong class="text-cyan-400">Telegram</strong>. Sin descargas extra, ni apps molestas.</p>
+                        <p class="text-gray-400 leading-relaxed">Recibe tus desafíos directamente en <strong class="text-green-400">WhatsApp</strong> o <strong class="text-cyan-400">Telegram</strong>. Sin descargas extra, ni apps molestas.</p>
                     </div>
                 </div>
             </div>
@@ -278,7 +279,7 @@
             </button>
             
             <h2 id="modal-title" class="text-3xl font-extrabold text-gradient mb-3 text-center">¡Únete a la Beta!</h2>
-            <p id="modal-description" class="text-gray-400 mb-8 text-center">Recibe tus micro-desafíos y no pierdas nada de lo que aprendes.</p>
+            <p id="modal-description" class="text-gray-400 mb-8 text-center leading-relaxed">Recibe tus micro-desafíos y no pierdas nada de lo que aprendes.</p>
 
             <form id="signup-form" class="space-y-4">
                 <input type="text" id="name-input" name="name" placeholder="Tu Nombre" required class="w-full p-4 bg-gray-900 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:border-indigo-primary focus:ring-4 focus:ring-indigo-500/20 transition duration-200">
@@ -369,3 +370,5 @@
     </script>
 </body>
 </html>
+
+
