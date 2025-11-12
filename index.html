@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -123,6 +124,55 @@
             stroke-linecap: round;
             stroke-linejoin: round;
         }
+
+        /* Estilos del Reloj Analógico */
+        #analog-clock {
+            box-shadow: 0 0 50px rgba(99, 102, 241, 0.5);
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .clock-hand {
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            transform-origin: center bottom;
+            border-radius: 5px;
+            z-index: 10;
+            cursor: grab;
+            transition: box-shadow 0.2s;
+        }
+
+        .hour-hand {
+            width: 6px;
+            height: 30%; /* Shorter */
+            background: #fff;
+            margin-left: -3px;
+        }
+
+        .minute-hand {
+            width: 4px;
+            height: 40%; /* Longer, but fixed in this lock screen demo */
+            background: #ec4899;
+            margin-left: -2px;
+            z-index: 15;
+            /* La manecilla de minutos está fija en 12:00 */
+            transform: translate(-50%, 0) rotate(0deg) !important; 
+        }
+
+        .center-dot {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 12px;
+            height: 12px;
+            background: #0a0a0a;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            z-index: 20;
+        }
+
     </style>
 </head>
 <body class="bg-dark-bg text-gray-200 antialiased">
@@ -202,14 +252,14 @@
 
                     <!-- Descripción -->
                     <p class="text-lg text-gray-400 mb-10 max-w-xl lg:max-w-none mx-auto lg:mx-0 leading-relaxed">
-                        Te enviamos un <span class="font-bold text-white"><comment-tag id="2">micro-desafío diario de 3 minutos</comment-tag id="2"></span> por WhatsApp/Telegram basado en tu última sesión. Refuerza, aplica y retén el <span class="font-bold text-white">100% de lo que aprendes</span>.
+                        Te enviamos un <span class="font-bold text-white">micro-desafío diario de 3 minutos</span> por WhatsApp/Telegram basado en tu última sesión. Refuerza, aplica y retén el <span class="font-bold text-white">100% de lo que aprendes</span>.
                         <br class="hidden sm:block"><span class="block mt-4 text-gray-300">Adiós a olvidar lo visto en clase. Es la herramienta definitiva para crear memoria a largo plazo y asegurar tu éxito académico.</span>
                     </p>
 
                     <!-- CTA Group -->
                     <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                         <button id="cta-primary-btn" class="bg-indigo-primary hover:bg-purple-accent text-white px-8 py-4 rounded-xl font-bold text-lg transition duration-300 shadow-xl shadow-indigo-500/30">
-                            <comment-tag id="3">¡Quiero Reforzar mi Aprendizaje! 🚀</comment-tag id="3">
+                            ¡Quiero Reforzar mi Aprendizaje! 🚀
                         </button>
                         <a href="#beneficios" id="cta-secondary-btn" class="bg-dark-card border border-gray-700 hover:border-indigo-primary/50 text-gray-300 px-8 py-4 rounded-xl font-medium text-lg transition duration-300 flex items-center justify-center">
                             Ver Beneficios
@@ -238,7 +288,7 @@
                 <div id="demo" class="flex justify-center items-center phone-container">
                     <!-- Contenedor del Mockup (Ancho y Altura ajustados) -->
                     <div class="w-full max-w-sm sm:max-w-md"> 
-                        <div class="phone-mockup bg-dark-card border-[10px] border-gray-700 rounded-[3rem] p-3 shadow-2xl">
+                        <div id="phone-mockup" class="phone-mockup bg-dark-card border-[10px] border-gray-700 rounded-[3rem] p-3 shadow-2xl">
                             <!-- Notch/Cámara -->
                             <div class="absolute top-4 left-1/2 transform -translate-x-1/2 w-32 h-6 bg-gray-900 rounded-b-xl z-20"></div>
                             
@@ -247,63 +297,139 @@
                                 
                                 <!-- BARRA DE ESTADO -->
                                 <div class="flex justify-between items-center text-xs text-white pt-1 pb-3">
-                                    <!-- Hora (Actualizada por JS) -->
-                                    <span id="current-time" class="font-semibold">00:00</span>
+                                    <!-- Hora (Clickable para mostrar lock screen) -->
+                                    <span id="trigger-lock-time" class="font-semibold text-gray-500 cursor-pointer hover:text-white transition duration-200">9:41</span>
                                     
                                     <!-- Iconos de Sistema -->
                                     <div class="flex items-center space-x-1">
                                         <!-- WiFi / Señal de Red (SVG simple) -->
-                                        <svg class="w-4 h-4 mobile-icon" viewBox="0 0 24 24" fill="none">
-                                            <path d="M12 21.5s-4-3-4-7c0-3.9 3.1-7 7-7 3.9 0 7 3.1 7 7 0 4-4 7-4 7" opacity=".3"/><path d="M5 13.5h.01M19 13.5h.01M2 10.5c.9-2.5 3.3-4.5 6-4.5M22 10.5c-.9-2.5-3.3-4.5-6-4.5"/>
+                                        <svg class="w-4 h-4 mobile-icon text-gray-500" viewBox="0 0 24 24" fill="none">
+                                            <path d="M12 21.5s-4-3-4-7c0-3.9 3.1-7 7-7 3.9 0 7 3.1 7 7 0 4-4 7-4 7" opacity=".3"/><path d="M5 13.5h.01M19 13.5h.01M2 10.5c.9-2.5 3.3-4.5 6-4.5M22 10.5c-.9-2.5-3.3-4-5-4.5"/>
                                         </svg>
                                         <!-- Batería (SVG simple) -->
-                                        <svg class="w-5 h-5 mobile-icon" viewBox="0 0 24 24" fill="none">
+                                        <svg class="w-5 h-5 mobile-icon text-gray-500" viewBox="0 0 24 24" fill="none">
                                             <rect x="2" y="5" width="20" height="14" rx="3" stroke-width="2"/>
                                             <path d="M22 9h1a1 1 0 011 1v4a1 1 0 01-1 1h-1" opacity="0"/> 
                                             <rect x="4" y="7" width="16" height="10" rx="2" fill="#4ade80" opacity=".9"/>
                                         </svg>
-                                        <span>75%</span>
+                                        <span class="text-gray-500">75%</span>
                                     </div>
                                 </div>
                                 
-                                <!-- Header del Chat -->
-                                <div class="flex items-center gap-3 p-3 bg-gray-800/80 rounded-xl backdrop-blur-sm mb-4">
-                                    <div class="w-10 h-10 bg-indigo-primary rounded-full flex items-center justify-center font-bold text-xl text-white">
-                                        RÉ
+                                <!-- ******************* PANTALLA DE BLOQUEO (RELOJ) ******************* -->
+                                <div id="app-lock-screen" class="absolute inset-0 flex flex-col items-center justify-center bg-gray-900 z-30 transition duration-500 hidden" style="padding-top: 4rem;">
+                                    <h3 class="text-3xl font-bold highlight-gradient mb-1">Acceso</h3>
+                                    <!-- Mensaje inicial, sin la hora explícita -->
+                                    <p id="lock-message" class="text-gray-400 text-center text-sm px-4 mb-4">Ingrese la combinación de seguridad.</p>
+
+                                    <!-- Clock Container (Sin números/marcas) -->
+                                    <div id="analog-clock" class="relative w-48 h-48 sm:w-64 sm:h-64 border-8 border-indigo-primary/50 rounded-full shadow-2xl bg-gray-800 flex items-center justify-center">
+                                        
+                                        <!-- Manecillas (Inicialmente 12:00) -->
+                                        <div id="minute-hand" class="clock-hand minute-hand"></div> <!-- Fija en 12 -->
+                                        <div id="hour-hand" class="clock-hand hour-hand h-[30%] translate-x-1/2" style="transform: translate(-50%, 0) rotate(0deg);"></div>
+                                        
+                                        <div class="center-dot"></div>
                                     </div>
-                                    <div class="flex-grow">
-                                        <h3 class="text-base font-semibold text-white">Ruta Éxito Bot</h3>
-                                        <p class="text-xs text-green-400 flex items-center">
-                                            <span class="relative flex h-2 w-2 mr-1"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span></span>
-                                            Online
-                                        </p>
-                                    </div>
+                                    
+                                    <p class="text-xs text-gray-600 mt-2">Arrastra la manecilla blanca (Hora).</p>
+
+                                    <button id="check-time-btn" class="mt-6 bg-indigo-primary hover:bg-purple-accent text-white px-8 py-3 rounded-xl text-lg font-bold transition duration-300 shadow-xl shadow-indigo-500/30">
+                                        Verificar Acceso
+                                    </button>
                                 </div>
                                 
-                                <!-- Mensajes de Demo -->
-                                <div class="space-y-3 pt-2">
-                                    <div class="bg-indigo-primary/20 border border-indigo-primary/30 text-gray-100 p-4 rounded-2xl rounded-bl-sm max-w-[90%] float-left clear-both">
-                                        <strong class="text-indigo-300 block mb-1">¡Hola! 👋 Listo para tu desafío de 3 min?</strong>
-                                        Basado en tu sesión sobre "Cálculo Diferencial".
+                                <!-- ******************* CONTENIDO DE LA DEMO (DEFAULT) ******************* -->
+                                <div id="demo-chat-content" class="h-full">
+                                    <!-- Header del Chat -->
+                                    <div class="flex items-center gap-3 p-3 bg-gray-800/80 rounded-xl backdrop-blur-sm mb-4">
+                                        <div class="w-10 h-10 bg-indigo-primary rounded-full flex items-center justify-center font-bold text-xl text-white">
+                                            RÉ
+                                        </div>
+                                        <div class="flex-grow">
+                                            <h3 class="text-base font-semibold text-white">Ruta Éxito Bot</h3>
+                                            <p class="text-xs text-green-400 flex items-center">
+                                                <span class="relative flex h-2 w-2 mr-1"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span></span>
+                                                Online
+                                            </p>
+                                        </div>
                                     </div>
-                                    <div class="bg-indigo-primary/20 border border-indigo-primary/30 text-gray-100 p-4 rounded-2xl rounded-bl-sm max-w-[90%] float-left clear-both">
-                                        <strong class="text-indigo-300 block mb-1">Pregunta Rápida:</strong>
-                                        ¿Cuál es la derivada de $f(x) = 3x^2 + 5$?
-                                    </div>
-                                    <div class="bg-gray-700/50 p-4 rounded-2xl rounded-br-sm max-w-[90%] float-right clear-both text-right mt-6">
-                                        <strong class="text-gray-300 block mb-1">Mi respuesta:</strong>
-                                        $6x$
-                                    </div>
-                                    <div class="bg-green-600/20 border border-green-600/30 p-4 rounded-2xl rounded-bl-sm max-w-[90%] float-left clear-both">
-                                        <strong class="text-green-300 block mb-1">¡Correcto! Sigue así.</strong>
-                                        <div class="mt-3 p-3 bg-green-600/10 rounded-lg">
-                                            <p class="text-sm text-green-300 mb-2">Racha de 7 días 🔥</p>
-                                            <div class="progress-bar h-2 bg-gray-700 rounded-full overflow-hidden">
-                                                <div class="progress-fill h-full bg-gradient-to-r from-green-500 to-green-300 w-0 rounded-full" style="width: 75%;"></div>
+                                    
+                                    <!-- Mensajes de Demo -->
+                                    <div class="space-y-3 pt-2">
+                                        <div class="bg-indigo-primary/20 border border-indigo-primary/30 text-gray-100 p-4 rounded-2xl rounded-bl-sm max-w-[90%] float-left clear-both">
+                                            <strong class="text-indigo-300 block mb-1">¡Hola! 👋 Listo para tu desafío de 3 min?</strong>
+                                            Basado en tu sesión sobre "Cálculo Diferencial".
+                                        </div>
+                                        <div class="bg-indigo-primary/20 border border-indigo-primary/30 text-gray-100 p-4 rounded-2xl rounded-bl-sm max-w-[90%] float-left clear-both">
+                                            <strong class="text-indigo-300 block mb-1">Pregunta Rápida:</strong>
+                                            ¿Cuál es la derivada de $f(x) = 3x^2 + 5$?
+                                        </div>
+                                        <div class="bg-gray-700/50 p-4 rounded-2xl rounded-br-sm max-w-[90%] float-right clear-both text-right mt-6">
+                                            <strong class="text-gray-300 block mb-1">Mi respuesta:</strong>
+                                            $6x$
+                                        </div>
+                                        <div class="bg-green-600/20 border border-green-600/30 p-4 rounded-2xl rounded-bl-sm max-w-[90%] float-left clear-both">
+                                            <strong class="text-green-300 block mb-1">¡Correcto! Sigue así.</strong>
+                                            <div class="mt-3 p-3 bg-green-600/10 rounded-lg">
+                                                <p class="text-sm text-green-300 mb-2">Racha de 7 días 🔥</p>
+                                                <div class="progress-bar h-2 bg-gray-700 rounded-full overflow-hidden">
+                                                    <div class="progress-fill h-full bg-gradient-to-r from-green-500 to-green-300 w-0 rounded-full" style="width: 75%;"></div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                
+                                <!-- ******************* CONTENIDO DE LA PÁGINA DE ADMINISTRADOR (NUEVO) ******************* -->
+                                <div id="admin-page-content" class="h-full hidden p-0">
+                                    <div class="flex items-center gap-3 p-3 bg-purple-accent/80 rounded-xl backdrop-blur-sm mb-4">
+                                        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center font-bold text-xl text-purple-700">
+                                            ⚙️
+                                        </div>
+                                        <div class="flex-grow">
+                                            <h3 class="text-base font-semibold text-white">Panel de Administrador</h3>
+                                            <p class="text-xs text-indigo-200">Acceso Concedido</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="space-y-4">
+                                        <div class="bg-dark-card border border-gray-700 p-4 rounded-xl">
+                                            <h4 class="text-lg font-bold text-white mb-2">Métricas Rápidas</h4>
+                                            <div class="flex justify-between text-sm text-gray-300">
+                                                <span>Usuarios Activos:</span>
+                                                <span class="font-bold text-green-400">1,245</span>
+                                            </div>
+                                            <div class="flex justify-between text-sm text-gray-300 mt-1">
+                                                <span>Desafíos Enviados:</span>
+                                                <span class="font-bold text-indigo-300">8,901</span>
+                                            </div>
+                                            <div class="flex justify-between text-sm text-gray-300 mt-1">
+                                                <span>Tasa de Finalización:</span>
+                                                <span class="font-bold text-pink-400">92%</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="bg-dark-card border border-gray-700 p-4 rounded-xl">
+                                            <h4 class="text-lg font-bold text-white mb-2">Gestión de Contenido</h4>
+                                            <ul class="space-y-2">
+                                                <li class="flex justify-between items-center text-gray-400 text-sm">
+                                                    <span>Revisar Desafíos Pendientes</span>
+                                                    <span class="bg-red-500 px-2 py-0.5 rounded-full text-xs font-bold">4</span>
+                                                </li>
+                                                <li class="flex justify-between items-center text-gray-400 text-sm">
+                                                    <span>Configurar Siguiente Módulo</span>
+                                                    <span class="text-indigo-400">Ajustar ></span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        
+                                        <button id="logout-btn" class="w-full bg-gray-700 hover:bg-gray-600 text-white px-4 py-3 rounded-xl font-semibold transition duration-300">
+                                            Cerrar Sesión (Volver a Demo)
+                                        </button>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -318,7 +444,7 @@
                 <div class="text-center mb-16">
                     <!-- Título de Sección -->
                     <h2 class="text-3xl sm:text-4xl font-extrabold text-gradient">
-                        <comment-tag id="4">Cierra la brecha entre Aprender y Dominar</comment-tag id="4">
+                        Cierra la brecha entre Aprender y Dominar
                     </h2>
                     <p class="text-lg text-gray-400 mt-4 max-w-3xl mx-auto leading-relaxed">
                         Nuestro método se basa en la repetición espaciada y la aplicación inmediata para un aprendizaje a prueba de olvidos.
@@ -376,7 +502,7 @@
             </button>
             
             <h2 id="modal-title" class="text-3xl font-extrabold text-gradient mb-3 text-center">¡Únete a la Beta!</h2>
-            <p id="modal-description" class="text-gray-400 mb-8 text-center leading-relaxed"><comment-tag id="5">Recibe tus micro-desafíos y no pierdas nada de lo que aprendes.</comment-tag id="5"></p>
+            <p id="modal-description" class="text-gray-400 mb-8 text-center leading-relaxed">Recibe tus micro-desafíos y no pierdas nada de lo que aprendes.</p>
 
             <form id="signup-form" class="space-y-4">
                 <input type="text" id="name-input" name="name" placeholder="Tu Nombre" required class="w-full p-4 bg-gray-900 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:border-indigo-primary focus:ring-4 focus:ring-indigo-500/20 transition duration-200">
@@ -402,27 +528,213 @@
         </div>
     </footer>
 
-    <!-- Script de Interactividad y Hora Actual -->
+    <!-- Script de Interactividad y Reloj Analógico -->
     <script>
-        // Función para obtener y formatear la hora actual
-        function updateTime() {
-            const now = new Date();
-            // Formato HH:MM
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const timeString = `${hours}:${minutes}`;
-            
-            const timeElement = document.getElementById('current-time');
-            if (timeElement) {
-                timeElement.textContent = timeString;
+        // --- Lógica del Reloj Analógico ---
+        let isDragging = false;
+        let clockRect;
+        let centerX, centerY;
+        let hourAngle = 0; // Ángulo inicial de la manecilla de la hora (12 o'clock)
+        const hourHand = document.getElementById('hour-hand');
+        const analogClock = document.getElementById('analog-clock');
+        const lockMessage = document.getElementById('lock-message');
+        const checkTimeBtn = document.getElementById('check-time-btn');
+        const lockScreen = document.getElementById('app-lock-screen');
+        const demoChatContent = document.getElementById('demo-chat-content');
+        const adminPageContent = document.getElementById('admin-page-content');
+        const triggerLockTime = document.getElementById('trigger-lock-time');
+        const logoutBtn = document.getElementById('logout-btn');
+
+
+        // Inicializa la posición de las manecillas
+        function setClock() {
+            if (hourHand) {
+                // El ángulo se aplica directamente a la manecilla de la hora
+                hourHand.style.transform = `translate(-50%, 0) rotate(${hourAngle}deg)`;
             }
         }
         
-        // Actualiza la hora inmediatamente y luego cada minuto
-        updateTime();
-        setInterval(updateTime, 60000); // Actualizar cada 60 segundos
+        // Convierte coordenadas de pantalla a un ángulo (0 en la parte superior, 180 en la parte inferior)
+        function getAngle(clientX, clientY) {
+            const dx = clientX - centerX;
+            const dy = clientY - centerY;
+            
+            // atan2 da el ángulo respecto al eje X. Ajustamos para que 0 grados sea en la parte superior (12 o'clock)
+            let angleRad = Math.atan2(dy, dx);
+            let angleDeg = angleRad * (180 / Math.PI);
+            
+            // Ajuste para que 0 grados esté en la posición '12'
+            angleDeg = angleDeg + 90;
+            if (angleDeg < 0) {
+                angleDeg += 360;
+            }
+            
+            // Invertir la rotación (sentido horario)
+            angleDeg = 360 - angleDeg;
+            
+            return angleDeg % 360;
+        }
 
+        // Manejador de movimiento (táctil o ratón)
+        function handleMove(clientX, clientY) {
+            if (!isDragging || !clockRect) return;
+
+            // Recalcular el centro del reloj (necesario si la vista se mueve o redimensiona)
+            clockRect = analogClock.getBoundingClientRect();
+            centerX = clockRect.left + clockRect.width / 2;
+            centerY = clockRect.top + clockRect.height / 2;
+            
+            let newAngle = getAngle(clientX, clientY);
+
+            // Redondear la rotación para que sea más fácil de usar
+            const snapValue = 5; // Snap a 5 grados
+            hourAngle = Math.round(newAngle / snapValue) * snapValue;
+            
+            setClock();
+        }
+
+        // Inicia el arrastre
+        function startDrag(e) {
+            // Asegurarse de que el arrastre solo comience en la manecilla de la hora
+            if (e.target.id !== 'hour-hand') return;
+            
+            isDragging = true;
+            e.preventDefault();
+            
+            const clientX = e.clientX || (e.touches ? e.touches[0].clientX : undefined);
+            const clientY = e.clientY || (e.touches ? e.touches[0].clientY : undefined);
+
+            if (clientX !== undefined) {
+                clockRect = analogClock.getBoundingClientRect();
+                centerX = clockRect.left + clockRect.width / 2;
+                centerY = clockRect.top + clockRect.height / 2;
+                
+                handleMove(clientX, clientY); 
+            }
+            
+            hourHand.style.cursor = 'grabbing';
+        }
+
+        // Detiene el arrastre
+        function endDrag() {
+            isDragging = false;
+            hourHand.style.cursor = 'grab';
+        }
+
+        // Función para mostrar la pantalla de bloqueo
+        function showLockScreen() {
+            lockScreen.classList.remove('hidden', 'opacity-0');
+            lockScreen.classList.add('flex');
+            demoChatContent.classList.add('opacity-10'); // Fondo un poco más oscuro
+            adminPageContent.classList.add('opacity-10'); // Oscurecer también si el admin está visible
+        }
+
+        // Función para ocultar la pantalla de bloqueo (en caso de cierre o éxito)
+        function hideLockScreen() {
+            lockScreen.classList.add('opacity-0');
+            demoChatContent.classList.remove('opacity-10');
+            adminPageContent.classList.remove('opacity-10'); // Quitar opacidad
+            setTimeout(() => {
+                lockScreen.classList.remove('flex');
+                lockScreen.classList.add('hidden');
+                
+                // Resetear estado del reloj
+                hourAngle = 0; 
+                setClock();
+                // El mensaje se resetea en checkTime si es un fallo.
+                lockMessage.textContent = "Ingrese la combinación de seguridad.";
+                lockMessage.classList.remove('text-red-500', 'text-green-400', 'font-bold');
+                lockMessage.classList.add('text-gray-400');
+
+            }, 500); // 500ms es la duración de la transición
+        }
+        
+        // Valida la hora
+        function checkTime() {
+            // Normalizar el ángulo (cercano a 180 grados = 6 o'clock)
+            const normalizedAngle = hourAngle % 360;
+
+            // Rango de tolerancia: +/- 15 grados alrededor de 180 (165 a 195)
+            const isSixOClock = normalizedAngle >= 165 && normalizedAngle <= 195;
+
+            if (isSixOClock) {
+                // Éxito: Desbloquear y mostrar Admin Page
+                lockMessage.textContent = "¡Acceso concedido! Abriendo Panel...";
+                lockMessage.classList.remove('text-gray-400');
+                lockMessage.classList.add('text-green-400', 'font-bold');
+
+                // Transición al Admin Page
+                setTimeout(() => {
+                    demoChatContent.classList.add('hidden');
+                    adminPageContent.classList.remove('hidden');
+                    hideLockScreen(); // Ocultar lock screen después de conceder acceso
+                }, 1000);
+                
+            } else {
+                // Fallo: Mostrar error y DEVOLVER AL LANDING PAGE
+                lockMessage.textContent = "Acceso denegado. Volviendo a la página principal...";
+                lockMessage.classList.remove('text-gray-400', 'text-green-400', 'font-bold');
+                lockMessage.classList.add('text-red-500', 'font-bold');
+
+                // Ocultar lock screen y SCROLL AL INICIO después de 1.5 segundos
+                setTimeout(() => {
+                    // Ocultar la pantalla de bloqueo
+                    lockScreen.classList.add('opacity-0');
+                    demoChatContent.classList.remove('opacity-10');
+                    adminPageContent.classList.remove('opacity-10');
+                    
+                    setTimeout(() => {
+                        lockScreen.classList.remove('flex');
+                        lockScreen.classList.add('hidden');
+
+                        // Asegurar que se muestre el contenido de demo por si el usuario estaba en admin y luego fallo
+                        adminPageContent.classList.add('hidden');
+                        demoChatContent.classList.remove('hidden');
+
+                        // SCROLL AL INICIO DE LA PÁGINA (LANDING PAGE)
+                        document.getElementById('inicio').scrollIntoView({ behavior: 'smooth' });
+                        
+                        // Resetear el estado del reloj y el mensaje
+                        hourAngle = 0; 
+                        setClock();
+                        lockMessage.textContent = "Ingrese la combinación de seguridad.";
+                        lockMessage.classList.remove('text-red-500', 'text-green-400', 'font-bold');
+                        lockMessage.classList.add('text-gray-400');
+                    }, 500); // Duración de la transición opacity
+
+                }, 1500);
+            }
+        }
+        
+        // --- Inicialización y Event Listeners ---
         document.addEventListener('DOMContentLoaded', () => {
+            setClock(); // Inicializa el reloj en 12:00
+
+            // Evento para mostrar la pantalla de bloqueo al hacer clic en la hora
+            triggerLockTime.addEventListener('click', showLockScreen);
+            
+            // Evento para cerrar sesión (Volver a la demo)
+            logoutBtn.addEventListener('click', () => {
+                adminPageContent.classList.add('hidden');
+                demoChatContent.classList.remove('hidden');
+            });
+
+
+            // Eventos para el arrastre del reloj (Mouse)
+            analogClock.addEventListener('mousedown', startDrag);
+            document.addEventListener('mousemove', (e) => handleMove(e.clientX, e.clientY));
+            document.addEventListener('mouseup', endDrag);
+
+            // Eventos para el arrastre del reloj (Touch)
+            analogClock.addEventListener('touchstart', (e) => { startDrag(e); e.preventDefault(); }, { passive: false });
+            document.addEventListener('touchmove', (e) => handleMove(e.touches[0].clientX, e.touches[0].clientY), { passive: false });
+            document.addEventListener('touchend', endDrag);
+
+            // Botón de verificación
+            checkTimeBtn.addEventListener('click', checkTime);
+
+
+            // --- Lógica del Modal (Pre-existente) ---
             const openModalBtn = document.getElementById('cta-primary-btn');
             const ctaNavBtn = document.getElementById('cta-nav-btn');
             const ctaMobileBtn = document.getElementById('cta-mobile-btn');
@@ -442,7 +754,6 @@
             };
 
             const openModal = () => {
-                // Resetear y mostrar el modal
                 form.style.display = 'block';
                 modalTitle.style.display = 'block';
                 modalDescription.style.display = 'block';
@@ -451,56 +762,44 @@
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');
                 
-                // Cerrar el menú móvil si estaba abierto
                 mobileMenu.classList.add('hidden');
             };
             
             // --- Event Listeners ---
-            
-            // Botones CTA que abren el modal
             openModalBtn.addEventListener('click', openModal);
             ctaNavBtn.addEventListener('click', openModal);
             ctaMobileBtn.addEventListener('click', openModal);
-
-            // Cerrar el modal
             closeModalBtn.addEventListener('click', closeModal);
             
-            // Cerrar el Modal al hacer clic fuera
             modal.addEventListener('click', (e) => {
                 if (e.target === modal) {
                     closeModal();
                 }
             });
 
-            // Manejar el envío del formulario (Simulación)
             form.addEventListener('submit', (e) => {
                 e.preventDefault(); 
                 
-                // Ocultar elementos del formulario y mostrar éxito
                 form.style.display = 'none';
                 modalTitle.style.display = 'none';
                 modalDescription.style.display = 'none';
                 successMsg.style.display = 'block';
                 
-                // Opcional: Cerrar el modal automáticamente después de 3 segundos
                 setTimeout(() => {
                     closeModal();
                 }, 3000); 
             });
 
-            // Toggle del menú móvil
             mobileMenuBtn.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
             });
             
-            // Cerrar menú móvil al hacer clic en un enlace
             mobileMenu.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', () => {
                     mobileMenu.classList.add('hidden');
                 });
             });
 
-            // Control de accesibilidad con la tecla ESC
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') {
                     if (modal.classList.contains('flex')) {
@@ -514,3 +813,5 @@
     </script>
 </body>
 </html>
+
+
