@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -23,7 +22,7 @@
                         'purple-accent': '#8b5cf6', // Purple 500
                         'dark-bg': '#0a0a0a',
                         'dark-card': '#1a1a1a',
-                        'dark-nav': '#111111', /* Nuevo color para el navbar */
+                        'dark-nav': '#111111', 
                     }
                 }
             }
@@ -113,8 +112,16 @@
         
         /* Asegura que el contenedor del teléfono encaje mejor */
         .phone-container {
-            padding-top: 2rem; /* Reduce padding superior */
-            padding-bottom: 2rem; /* Reduce padding inferior */
+            padding-top: 2rem; 
+            padding-bottom: 2rem; 
+        }
+        
+        /* Estilos base para iconos (SVG) */
+        .mobile-icon {
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
         }
     </style>
 </head>
@@ -167,20 +174,29 @@
     <main class="relative z-10">
         
         <!-- Sección 1: HERO y CTA -->
-        <!-- La altura es ajustada a min-h-[calc(100vh-64px)] para llenar el espacio debajo del navbar de 64px -->
         <section id="inicio" class="min-h-[calc(100vh-64px)] flex items-center pt-20 pb-12 px-6">
             <div class="container mx-auto max-w-7xl grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
                 
                 <!-- Columna de Texto Principal -->
                 <div class="text-center lg:text-left">
+                    
+                    <!-- NUEVO TÍTULO GRANDE Y RESALTADO -->
+                    <h2 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold highlight-gradient mb-3 leading-tight">
+                        Presentamos Ruta Éxito
+                    </h2>
+                    <!-- LÍNEA SECUNDARIA MUCHO MÁS GRANDE -->
+                    <p class="text-2xl sm:text-3xl lg:text-4xl font-medium text-gray-300 mb-8 leading-snug">
+                        No Pierdas el Hilo. Convierte tu Tutoría en Hábito Efectivo
+                    </p>
+
                     <!-- Badge -->
                     <div class="inline-flex items-center gap-2 bg-indigo-primary/20 border border-indigo-primary/30 text-indigo-300 px-5 py-2 rounded-full font-semibold mb-6 backdrop-blur-sm shadow-xl">
                         <span>✨</span>
                         <span>Beta Gratuita - Cupos Limitados</span>
                     </div>
 
-                    <!-- Título -->
-                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-6">
+                    <!-- Título H1 PRINCIPAL (Ahora subordinado a los nuevos títulos) -->
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-4">
                         Maximiza tu <span class="highlight-gradient">Retención</span>.<br> Convierte Tutorías en Hábitos.
                     </h1>
 
@@ -223,9 +239,32 @@
                     <!-- Contenedor del Mockup (Ancho y Altura ajustados) -->
                     <div class="w-full max-w-sm sm:max-w-md"> 
                         <div class="phone-mockup bg-dark-card border-[10px] border-gray-700 rounded-[3rem] p-3 shadow-2xl">
+                            <!-- Notch/Cámara -->
                             <div class="absolute top-4 left-1/2 transform -translate-x-1/2 w-32 h-6 bg-gray-900 rounded-b-xl z-20"></div>
-                            <!-- Altura de pantalla aumentada a min-h-[600px] -->
+                            
+                            <!-- Pantalla del Teléfono (Altura aumentada a min-h-[600px]) -->
                             <div class="phone-screen bg-gray-900 rounded-[2rem] min-h-[600px] p-5 relative overflow-hidden">
+                                
+                                <!-- BARRA DE ESTADO -->
+                                <div class="flex justify-between items-center text-xs text-white pt-1 pb-3">
+                                    <!-- Hora (Actualizada por JS) -->
+                                    <span id="current-time" class="font-semibold">00:00</span>
+                                    
+                                    <!-- Iconos de Sistema -->
+                                    <div class="flex items-center space-x-1">
+                                        <!-- WiFi / Señal de Red (SVG simple) -->
+                                        <svg class="w-4 h-4 mobile-icon" viewBox="0 0 24 24" fill="none">
+                                            <path d="M12 21.5s-4-3-4-7c0-3.9 3.1-7 7-7 3.9 0 7 3.1 7 7 0 4-4 7-4 7" opacity=".3"/><path d="M5 13.5h.01M19 13.5h.01M2 10.5c.9-2.5 3.3-4.5 6-4.5M22 10.5c-.9-2.5-3.3-4.5-6-4.5"/>
+                                        </svg>
+                                        <!-- Batería (SVG simple) -->
+                                        <svg class="w-5 h-5 mobile-icon" viewBox="0 0 24 24" fill="none">
+                                            <rect x="2" y="5" width="20" height="14" rx="3" stroke-width="2"/>
+                                            <path d="M22 9h1a1 1 0 011 1v4a1 1 0 01-1 1h-1" opacity="0"/> 
+                                            <rect x="4" y="7" width="16" height="10" rx="2" fill="#4ade80" opacity=".9"/>
+                                        </svg>
+                                        <span>75%</span>
+                                    </div>
+                                </div>
                                 
                                 <!-- Header del Chat -->
                                 <div class="flex items-center gap-3 p-3 bg-gray-800/80 rounded-xl backdrop-blur-sm mb-4">
@@ -363,8 +402,26 @@
         </div>
     </footer>
 
-    <!-- Script de Interactividad -->
+    <!-- Script de Interactividad y Hora Actual -->
     <script>
+        // Función para obtener y formatear la hora actual
+        function updateTime() {
+            const now = new Date();
+            // Formato HH:MM
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const timeString = `${hours}:${minutes}`;
+            
+            const timeElement = document.getElementById('current-time');
+            if (timeElement) {
+                timeElement.textContent = timeString;
+            }
+        }
+        
+        // Actualiza la hora inmediatamente y luego cada minuto
+        updateTime();
+        setInterval(updateTime, 60000); // Actualizar cada 60 segundos
+
         document.addEventListener('DOMContentLoaded', () => {
             const openModalBtn = document.getElementById('cta-primary-btn');
             const ctaNavBtn = document.getElementById('cta-nav-btn');
@@ -393,6 +450,9 @@
 
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');
+                
+                // Cerrar el menú móvil si estaba abierto
+                mobileMenu.classList.add('hidden');
             };
             
             // --- Event Listeners ---
