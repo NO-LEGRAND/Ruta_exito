@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -22,6 +23,7 @@
                         'purple-accent': '#8b5cf6', // Purple 500
                         'dark-bg': '#0a0a0a',
                         'dark-card': '#1a1a1a',
+                        'dark-nav': '#111111', /* Nuevo color para el navbar */
                     }
                 }
             }
@@ -108,6 +110,12 @@
         .progress-fill {
             animation: fillProgress 2s ease-out 0.5s forwards;
         }
+        
+        /* Asegura que el contenedor del teléfono encaje mejor */
+        .phone-container {
+            padding-top: 2rem; /* Reduce padding superior */
+            padding-bottom: 2rem; /* Reduce padding inferior */
+        }
     </style>
 </head>
 <body class="bg-dark-bg text-gray-200 antialiased">
@@ -119,10 +127,48 @@
         <div class="gradient-orb orb-3"></div>
     </div>
 
+    <!-- BARRA DE NAVEGACIÓN (NAVBAR) -->
+    <header class="sticky top-0 z-50 bg-dark-nav/80 backdrop-blur-sm border-b border-gray-800 shadow-lg">
+        <div class="container mx-auto max-w-7xl px-6 h-16 flex items-center justify-between">
+            <!-- Logo/Nombre de Marca -->
+            <a href="#inicio" class="text-xl font-extrabold text-white flex items-center gap-1">
+                <span class="highlight-gradient">Ruta</span><span class="text-gray-300">Éxito</span>
+            </a>
+
+            <!-- Navegación Principal (Escritorio) -->
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="#inicio" class="text-gray-400 hover:text-indigo-primary transition duration-200 font-medium">Inicio</a>
+                <a href="#beneficios" class="text-gray-400 hover:text-indigo-primary transition duration-200 font-medium">Beneficios</a>
+                <a href="#contacto" class="text-gray-400 hover:text-indigo-primary transition duration-200 font-medium">Contacto</a>
+            </nav>
+
+            <!-- CTA y Botón de Menú (Móvil) -->
+            <div class="flex items-center gap-4">
+                <button id="cta-nav-btn" class="hidden md:block bg-purple-accent hover:bg-indigo-primary text-white px-5 py-2.5 rounded-lg font-semibold transition duration-300 shadow-md shadow-purple-500/30 text-sm">
+                    Acceso Beta
+                </button>
+                <button id="mobile-menu-btn" class="md:hidden text-gray-400 hover:text-white p-2 rounded-lg transition duration-200" aria-label="Abrir menú">
+                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Menú Móvil Desplegable (Oculto por defecto) -->
+    <nav id="mobile-menu" class="absolute top-16 left-0 right-0 bg-dark-nav md:hidden hidden z-40 border-b border-gray-800 shadow-xl p-4">
+        <a href="#inicio" class="block py-3 px-4 text-gray-300 hover:bg-gray-800 rounded-lg transition duration-200">Inicio</a>
+        <a href="#beneficios" class="block py-3 px-4 text-gray-300 hover:bg-gray-800 rounded-lg transition duration-200">Beneficios</a>
+        <a href="#contacto" class="block py-3 px-4 text-gray-300 hover:bg-gray-800 rounded-lg transition duration-200">Contacto</a>
+        <button id="cta-mobile-btn" class="w-full bg-indigo-primary hover:bg-purple-accent text-white px-4 py-3 rounded-lg font-semibold mt-4">
+            ¡Quiero Acceder a la Beta!
+        </button>
+    </nav>
+    
     <main class="relative z-10">
         
         <!-- Sección 1: HERO y CTA -->
-        <section id="inicio" class="h-[90vh] flex items-center pt-20 pb-12 px-6">
+        <!-- La altura es ajustada a min-h-[calc(100vh-64px)] para llenar el espacio debajo del navbar de 64px -->
+        <section id="inicio" class="min-h-[calc(100vh-64px)] flex items-center pt-20 pb-12 px-6">
             <div class="container mx-auto max-w-7xl grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
                 
                 <!-- Columna de Texto Principal -->
@@ -133,21 +179,21 @@
                         <span>Beta Gratuita - Cupos Limitados</span>
                     </div>
 
-                    <!-- Título (Ajustado) -->
+                    <!-- Título -->
                     <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-6">
                         Maximiza tu <span class="highlight-gradient">Retención</span>.<br> Convierte Tutorías en Hábitos.
                     </h1>
 
-                    <!-- Descripción (Expandida) -->
+                    <!-- Descripción -->
                     <p class="text-lg text-gray-400 mb-10 max-w-xl lg:max-w-none mx-auto lg:mx-0 leading-relaxed">
-                        Te enviamos un <span class="font-bold text-white">micro-desafío diario de 3 minutos</span> por WhatsApp/Telegram basado en tu última sesión. Refuerza, aplica y retén el <span class="font-bold text-white">100% de lo que aprendes</span>.
+                        Te enviamos un <span class="font-bold text-white"><comment-tag id="2">micro-desafío diario de 3 minutos</comment-tag id="2"></span> por WhatsApp/Telegram basado en tu última sesión. Refuerza, aplica y retén el <span class="font-bold text-white">100% de lo que aprendes</span>.
                         <br class="hidden sm:block"><span class="block mt-4 text-gray-300">Adiós a olvidar lo visto en clase. Es la herramienta definitiva para crear memoria a largo plazo y asegurar tu éxito académico.</span>
                     </p>
 
                     <!-- CTA Group -->
                     <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                         <button id="cta-primary-btn" class="bg-indigo-primary hover:bg-purple-accent text-white px-8 py-4 rounded-xl font-bold text-lg transition duration-300 shadow-xl shadow-indigo-500/30">
-                            ¡Quiero Reforzar mi Aprendizaje! 🚀
+                            <comment-tag id="3">¡Quiero Reforzar mi Aprendizaje! 🚀</comment-tag id="3">
                         </button>
                         <a href="#beneficios" id="cta-secondary-btn" class="bg-dark-card border border-gray-700 hover:border-indigo-primary/50 text-gray-300 px-8 py-4 rounded-xl font-medium text-lg transition duration-300 flex items-center justify-center">
                             Ver Beneficios
@@ -173,12 +219,13 @@
                 </div> <!-- /Columna de Texto -->
 
                 <!-- Columna de Visual: Mockup de Teléfono -->
-                <div id="demo" class="flex justify-center items-center py-10">
-                    <!-- CLASE AJUSTADA AQUÍ -->
+                <div id="demo" class="flex justify-center items-center phone-container">
+                    <!-- Contenedor del Mockup (Ancho y Altura ajustados) -->
                     <div class="w-full max-w-sm sm:max-w-md"> 
                         <div class="phone-mockup bg-dark-card border-[10px] border-gray-700 rounded-[3rem] p-3 shadow-2xl">
                             <div class="absolute top-4 left-1/2 transform -translate-x-1/2 w-32 h-6 bg-gray-900 rounded-b-xl z-20"></div>
-                            <div class="phone-screen bg-gray-900 rounded-[2rem] min-h-[500px] p-5 relative overflow-hidden">
+                            <!-- Altura de pantalla aumentada a min-h-[600px] -->
+                            <div class="phone-screen bg-gray-900 rounded-[2rem] min-h-[600px] p-5 relative overflow-hidden">
                                 
                                 <!-- Header del Chat -->
                                 <div class="flex items-center gap-3 p-3 bg-gray-800/80 rounded-xl backdrop-blur-sm mb-4">
@@ -230,9 +277,9 @@
         <section id="beneficios" class="py-20 lg:py-28 px-6 bg-dark-card/50">
             <div class="container mx-auto max-w-7xl">
                 <div class="text-center mb-16">
-                    <!-- Título de Sección (Ajuste: usando responsive text sizing y removido leading-tight) -->
+                    <!-- Título de Sección -->
                     <h2 class="text-3xl sm:text-4xl font-extrabold text-gradient">
-                        Cierra la brecha entre Aprender y Dominar
+                        <comment-tag id="4">Cierra la brecha entre Aprender y Dominar</comment-tag id="4">
                     </h2>
                     <p class="text-lg text-gray-400 mt-4 max-w-3xl mx-auto leading-relaxed">
                         Nuestro método se basa en la repetición espaciada y la aplicación inmediata para un aprendizaje a prueba de olvidos.
@@ -267,7 +314,7 @@
                         <p class="text-gray-400 text-sm leading-relaxed">Recibe tus desafíos directamente en <strong class="text-green-400">WhatsApp</strong> o <strong class="text-cyan-400">Telegram</strong>. Sin descargas extra, ni apps molestas.</p>
                     </div>
 
-                    <!-- Nueva Tarjeta 4: Aplicación Inmediata -->
+                    <!-- Tarjeta 4: Aplicación Inmediata -->
                     <div class="bg-dark-card p-6 rounded-2xl border border-gray-800 shadow-2xl hover:shadow-purple-accent/10 transition duration-300 transform hover:-translate-y-1">
                         <div class="inline-block p-3 rounded-xl bg-pink-secondary/20 text-pink-400 mb-3">
                             <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 21l-10.5-11.25h14.25" /></svg>
@@ -290,7 +337,7 @@
             </button>
             
             <h2 id="modal-title" class="text-3xl font-extrabold text-gradient mb-3 text-center">¡Únete a la Beta!</h2>
-            <p id="modal-description" class="text-gray-400 mb-8 text-center leading-relaxed">Recibe tus micro-desafíos y no pierdas nada de lo que aprendes.</p>
+            <p id="modal-description" class="text-gray-400 mb-8 text-center leading-relaxed"><comment-tag id="5">Recibe tus micro-desafíos y no pierdas nada de lo que aprendes.</comment-tag id="5"></p>
 
             <form id="signup-form" class="space-y-4">
                 <input type="text" id="name-input" name="name" placeholder="Tu Nombre" required class="w-full p-4 bg-gray-900 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:border-indigo-primary focus:ring-4 focus:ring-indigo-500/20 transition duration-200">
@@ -320,13 +367,17 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const openModalBtn = document.getElementById('cta-primary-btn');
-            const demoBtn = document.getElementById('cta-secondary-btn');
+            const ctaNavBtn = document.getElementById('cta-nav-btn');
+            const ctaMobileBtn = document.getElementById('cta-mobile-btn');
             const modal = document.getElementById('signup-modal');
             const closeModalBtn = document.getElementById('close-modal-btn');
             const form = document.getElementById('signup-form');
             const successMsg = document.getElementById('success-msg');
             const modalTitle = document.getElementById('modal-title');
             const modalDescription = document.getElementById('modal-description');
+            
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
 
             const closeModal = () => {
                 modal.classList.add('hidden');
@@ -345,7 +396,13 @@
             };
             
             // --- Event Listeners ---
+            
+            // Botones CTA que abren el modal
             openModalBtn.addEventListener('click', openModal);
+            ctaNavBtn.addEventListener('click', openModal);
+            ctaMobileBtn.addEventListener('click', openModal);
+
+            // Cerrar el modal
             closeModalBtn.addEventListener('click', closeModal);
             
             // Cerrar el Modal al hacer clic fuera
@@ -371,15 +428,29 @@
                 }, 3000); 
             });
 
+            // Toggle del menú móvil
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            // Cerrar menú móvil al hacer clic en un enlace
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
             // Control de accesibilidad con la tecla ESC
             document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && modal.classList.contains('flex')) {
-                    closeModal();
+                if (e.key === 'Escape') {
+                    if (modal.classList.contains('flex')) {
+                        closeModal();
+                    } else if (!mobileMenu.classList.contains('hidden')) {
+                         mobileMenu.classList.add('hidden');
+                    }
                 }
             });
         });
     </script>
 </body>
 </html>
-
-
